@@ -1,33 +1,51 @@
 #include <iostream>
 #include <fstream>
 
-/**
- * The program reads numbers from a file and prints the sum of them
- * Example: main.exe ./tests/input.in
- * @param  argc [description]
- * @param  argv [description]
- * @return      [description]
- */
 int main(int argc, const char * argv[])
 {
     
-    int a = 0;
+    int a;
     int sum = 0;
+    int sizeOfArray = 1;
+    int * ptr = new int[sizeOfArray];
     
     std::ifstream myReadFile;
     
     myReadFile.open(argv[1]);
     
+    int numberOfDigits = 0;
     while (myReadFile >> a)
     {
+        ptr[numberOfDigits] = a;
+        ++numberOfDigits;
         sum += a;
+
+        if(sizeOfArray < numberOfDigits)
+        {
+            sizeOfArray += 1;
+        }
     }
+
+    int * newptr = new int[sizeOfArray];
+    if(numberOfDigits == 0)
+    {
+        exit(0);
+    }
+    
+    double avgOfDigits = static_cast<double>(sum)/numberOfDigits;
+
+    for(int i = 0; i < sizeOfArray; i++)
+    {
+        newptr[i] = ptr[i];
+        if(newptr[i] > avgOfDigits)
+        {
+            std::cout << newptr[i] << ' ';
+        }
+    }
+    std::cout << '\n';
+
     myReadFile.close();
-    
-    
-    
-    std::cout << sum << "\n";
-    
+
     return 0;
 }
 
